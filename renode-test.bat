@@ -2,6 +2,7 @@
 REM We change the below line to "set CONTEXT=package" during package generation
 set "CONTEXT=source"
 set "SCRIPTDIR=%~dp0"
+set "PYTHON_EXEC=poetry run python"
 
 :args
 if "%1" == "" goto args_end
@@ -18,7 +19,7 @@ if "%DEBUG%" == "1" (
 )
 
 if "%CONTEXT%" == "source" (
-    py -3 "%SCRIPTDIR%\tests\run_tests.py" --css-file "%SCRIPTDIR%\lib\resources\styles\robot.css" --exclude "skip_windows" --robot-framework-remote-server-full-directory "%BINDIR%" -r %cd% %*
+    %PYTHON_EXEC% "%SCRIPTDIR%\tests\run_tests.py" --css-file "%SCRIPTDIR%\lib\resources\styles\robot.css" --exclude "skip_windows" --robot-framework-remote-server-full-directory "%BINDIR%" -r %cd% %*
 ) else (
-    py -3 "%SCRIPTDIR%\..\tests\run_tests.py" --css-file "%SCRIPTDIR%\..\tests\robot.css" --exclude "skip_windows" --robot-framework-remote-server-full-directory "%SCRIPTDIR%\" -r "%cd%" %*
+    %PYTHON_EXEC% "%SCRIPTDIR%\..\tests\run_tests.py" --css-file "%SCRIPTDIR%\..\tests\robot.css" --exclude "skip_windows" --robot-framework-remote-server-full-directory "%SCRIPTDIR%\" -r "%cd%" %*
 )

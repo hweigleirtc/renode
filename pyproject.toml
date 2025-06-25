@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "renode"
+version = "0.1.0"
+description = ""
+authors = ["Harper Weigle <harper.weigle@irhythmtech.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+robotframework = "6.1"
+psutil = "5.9.3"
+pyyaml = "6.0.*"
+telnetlib3 = "2.0.*"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

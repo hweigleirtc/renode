@@ -8,8 +8,11 @@ bin
 *.userprefs
 .gdb_history
 
+*.code-workspace
+
 # robot test result files
 output.xml
+robot_output.xml
 report.html
 log.html
 
