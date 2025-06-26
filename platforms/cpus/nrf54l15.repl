@@ -1,0 +1,166 @@
+nvic: IRQControllers.NVIC @ sysbus 0xE000E000
+    -> cpu@0
+
+cpu: CPU.CortexM @ sysbus
+    cpuType: "cortex-m4"
+    nvic: nvic
+
+uart0: UART.NRF54L15_UART @ sysbus 0x5004a000
+    easyDMA: true
+    -> nvic@74
+
+spim20: SPI.NRF54L15_SPI @ sysbus 0x500c6000
+    -> nvic@0x198
+
+spis20: SPI.NRF54L15_SPI @ sysbus 0x500c6000
+    -> nvic@0x198
+
+twim20: I2C.NRF54L15_I2C @ sysbus 0x500c6000
+    -> nvic@0x198
+
+twis20: I2C.NRF54L15_I2C @ sysbus 0x500c6000
+    -> nvic@0x198
+
+uart20: UART.NRF54L15_UART @ sysbus 0x500c6000
+    easyDMA: true
+    -> nvic@198
+
+spim21: SPI.NRF54L15_SPI @ sysbus 0x500c7000
+    -> nvic@0x199
+
+spis21: SPI.NRF54L15_SPI @ sysbus 0x500c7000
+    -> nvic@0x199
+
+twim21: I2C.NRF54L15_I2C @ sysbus 0x500c7000
+    -> nvic@0x199
+
+twis21: I2C.NRF54L15_I2C @ sysbus 0x500c7000
+    -> nvic@0x199
+
+uart21: UART.NRF54L15_UART @ sysbus 0x500c7000
+    easyDMA: true
+    -> nvic@199
+
+spim22: SPI.NRF54L15_SPI @ sysbus 0x500c8000
+    -> nvic@0x200
+
+spis22: SPI.NRF54L15_SPI @ sysbus 0x500c8000
+    -> nvic@0x200
+
+twim22: I2C.NRF54L15_I2C @ sysbus 0x500c8000
+    -> nvic@0x200
+
+twis22: I2C.NRF54L15_I2C @ sysbus 0x500c8000
+    -> nvic@0x200
+
+uart22: UART.NRF54L15_UART @ sysbus 0x500c8000
+    easyDMA: true
+    -> nvic@200
+
+grtc: Timers.NRF54L15_RTC @ sysbus 0x500e2000
+    numberOfEvents: 3
+    -> nvic@226
+
+wdt30: Timers.NRF54L15_Watchdog @ sysbus 0x50108000
+    -> nvic@264
+
+ppib00: Miscellaneous.NRF54L15_PPI @ sysbus 0x50043000
+
+ppib01: Miscellaneous.NRF54L15_PPI @ sysbus 0x50044000
+
+ppib10: Miscellaneous.NRF54L15_PPI @ sysbus 0x50083000
+
+ppib11: Miscellaneous.NRF54L15_PPI @ sysbus 0x50084000
+
+ppib20: Miscellaneous.NRF54L15_PPI @ sysbus 0x500c3000
+
+ppib21: Miscellaneous.NRF54L15_PPI @ sysbus 0x500c4000
+
+ppib22: Miscellaneous.NRF54L15_PPI @ sysbus 0x500c5000
+
+ppib30: Miscellaneous.NRF54L15_PPI @ sysbus 0x50103000
+
+flash: Memory.MappedMemory @ sysbus 0x0
+    size: 0x17D000
+
+ram: Memory.MappedMemory @ { sysbus 0x800000; sysbus 0x20000000 }
+    size: 0x40000
+
+clock: Miscellaneous.NRF_CLOCK @ sysbus 0x5010e000
+    -> nvic@270
+
+spim00: SPI.NRF54L15_SPI @ sysbus 0x5004a000
+    -> nvic@0x74
+
+spis00: SPI.NRF54L15_SPI @ sysbus 0x5004a000
+    -> nvic@0x74
+
+p2: GPIOPort.NRF54L15_GPIO @ sysbus 0x50050400
+
+p1: GPIOPort.NRF54L15_GPIO @ sysbus 0x500d8200
+
+p0: GPIOPort.NRF54L15_GPIO @ sysbus 0x500d8200
+
+gpiote20: GPIOPort.NRF54L15_GPIOTasksEvents @ sysbus 0x500da000
+    port1: p1
+    -> nvic@218
+
+gpiote30: GPIOPort.NRF54L15_GPIOTasksEvents @ sysbus 0x5010c000
+    port0: p0
+    -> nvic@268
+
+timer00: Timers.NRF54L15_Timer @ sysbus 0x50055000
+    numberOfEvents: 4
+    -> nvic@85
+
+timer10: Timers.NRF54L15_Timer @ sysbus 0x50085000
+    numberOfEvents: 4
+    -> nvic@133
+
+timer20: Timers.NRF54L15_Timer @ sysbus 0x500ca000
+    numberOfEvents: 4
+    -> nvic@202
+
+timer21: Timers.NRF54L15_Timer @ sysbus 0x500cb000
+    numberOfEvents: 4
+    -> nvic@203
+
+timer22: Timers.NRF54L15_Timer @ sysbus 0x500cc000
+    numberOfEvents: 4
+    -> nvic@204
+
+timer23: Timers.NRF54L15_Timer @ sysbus 0x500cd000
+    numberOfEvents: 4
+    -> nvic@205
+
+timer24: Timers.NRF54L15_Timer @ sysbus 0x500ce000
+    numberOfEvents: 4
+    -> nvic@206
+
+i2s20: Sound.NRF54L15_I2S @ sysbus 0x500dc000
+    -> nvic@221
+
+pdm20: Sound.NRF54L15_PDM @ sysbus 0x500d0000
+    -> nvic@208
+
+pdm21: Sound.NRF54L15_PDM @ sysbus 0x500d1000
+    -> nvic@209
+
+radio: Wireless.NRF54L15_Radio @ sysbus 0x5008a000
+    -> nvic@138
+
+ecb00: Miscellaneous.NRF54L15_ECB @ sysbus 0x50047000
+    -> nvic@71
+
+egu10 : Miscellaneous.NRF54L15_EGU @ sysbus 0x50087000
+    -> nvic@135
+
+egu20 : Miscellaneous.NRF52840_EGU @ sysbus 0x500c9000
+    -> nvic@201
+
+sysbus:
+    init:
+        ApplySVD @../../svd/nrf54l15_application.svd
+        Tag <0x00ffc000, 0x00ffcfff> "FICR"
+        Tag <0x00ffc3a0, 0x00ffc3a3> "DEVICEADDRTYPE" 0x1 # random address
+        Tag <0x00ffc3a4, 0x00ffc3a7> "DEVICEADDR[0]" 0xAABBCCDD
