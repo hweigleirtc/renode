@@ -5,57 +5,19 @@ cpu: CPU.CortexM @ sysbus
     cpuType: "cortex-m4"
     nvic: nvic
 
-uart0: UART.NRF54L15_UART @ sysbus 0x5004a000
+uart00: UART.NRF54L15_UART @ sysbus 0x5004a000
     easyDMA: true
     -> nvic@74
 
 spim20: SPI.NRF54L15_SPI @ sysbus 0x500c6000
     -> nvic@0x198
 
-spis20: SPI.NRF54L15_SPI @ sysbus 0x500c6000
-    -> nvic@0x198
-
-twim20: I2C.NRF54L15_I2C @ sysbus 0x500c6000
-    -> nvic@0x198
-
-twis20: I2C.NRF54L15_I2C @ sysbus 0x500c6000
-    -> nvic@0x198
-
-uart20: UART.NRF54L15_UART @ sysbus 0x500c6000
-    easyDMA: true
-    -> nvic@198
-
-spim21: SPI.NRF54L15_SPI @ sysbus 0x500c7000
-    -> nvic@0x199
-
-spis21: SPI.NRF54L15_SPI @ sysbus 0x500c7000
-    -> nvic@0x199
-
-twim21: I2C.NRF54L15_I2C @ sysbus 0x500c7000
-    -> nvic@0x199
-
-twis21: I2C.NRF54L15_I2C @ sysbus 0x500c7000
-    -> nvic@0x199
-
 uart21: UART.NRF54L15_UART @ sysbus 0x500c7000
     easyDMA: true
     -> nvic@199
 
-spim22: SPI.NRF54L15_SPI @ sysbus 0x500c8000
-    -> nvic@0x200
-
-spis22: SPI.NRF54L15_SPI @ sysbus 0x500c8000
-    -> nvic@0x200
-
 twim22: I2C.NRF54L15_I2C @ sysbus 0x500c8000
     -> nvic@0x200
-
-twis22: I2C.NRF54L15_I2C @ sysbus 0x500c8000
-    -> nvic@0x200
-
-uart22: UART.NRF54L15_UART @ sysbus 0x500c8000
-    easyDMA: true
-    -> nvic@200
 
 grtc: Timers.NRF54L15_RTC @ sysbus 0x500e2000
     numberOfEvents: 3
@@ -89,20 +51,12 @@ ram: Memory.MappedMemory @ { sysbus 0x800000; sysbus 0x20000000 }
 clock: Miscellaneous.NRF_CLOCK @ sysbus 0x5010e000
     -> nvic@270
 
-spim00: SPI.NRF54L15_SPI @ sysbus 0x5004a000
-    -> nvic@0x74
-
-spis00: SPI.NRF54L15_SPI @ sysbus 0x5004a000
-    -> nvic@0x74
-
 p2: GPIOPort.NRF54L15_GPIO @ sysbus 0x50050400
-
-p1: GPIOPort.NRF54L15_GPIO @ sysbus 0x500d8200
 
 p0: GPIOPort.NRF54L15_GPIO @ sysbus 0x500d8200
 
 gpiote20: GPIOPort.NRF54L15_GPIOTasksEvents @ sysbus 0x500da000
-    port1: p1
+    port1: p2
     -> nvic@218
 
 gpiote30: GPIOPort.NRF54L15_GPIOTasksEvents @ sysbus 0x5010c000
@@ -160,7 +114,7 @@ egu20 : Miscellaneous.NRF52840_EGU @ sysbus 0x500c9000
 
 sysbus:
     init:
-        ApplySVD @../../svd/nrf54l15_application.svd
+        ApplySVD @D:\harper\projects\renode\svd\nrf54l15_application.svd
         Tag <0x00ffc000, 0x00ffcfff> "FICR"
         Tag <0x00ffc3a0, 0x00ffc3a3> "DEVICEADDRTYPE" 0x1 # random address
         Tag <0x00ffc3a4, 0x00ffc3a7> "DEVICEADDR[0]" 0xAABBCCDD

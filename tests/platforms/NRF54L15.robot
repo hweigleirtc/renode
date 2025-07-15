@@ -1,5 +1,5 @@
 *** Variables ***
-${UART}                       sysbus.uart0
+${UART}                       sysbus.uart00
 ${URI}                        @https://dl.antmicro.com/projects/renode
 
 ${STANDARD}=  SEPARATOR=
@@ -10,18 +10,18 @@ ${STANDARD}=  SEPARATOR=
 ${NO_DMA}=  SEPARATOR=
 ...  """                                     ${\n}
 ...  using "platforms/cpus/nrf54l15.repl"    ${\n}
-...  uart0:                                  ${\n}
+...  uart00:                                 ${\n}
 ...  ${SPACE*4}easyDMA: false                ${\n}
-...  uart1:                                  ${\n}
+...  uart21:                                 ${\n}
 ...  ${SPACE*4}easyDMA: false                ${\n}
 ...  """
 
 ${DMA}=     SEPARATOR=
 ...  """                                     ${\n}
 ...  using "platforms/cpus/nrf54l15.repl"    ${\n}
-...  uart0:                                  ${\n}
+...  uart00:                                 ${\n}
 ...  ${SPACE*4}easyDMA: true                 ${\n}
-...  uart1:                                  ${\n}
+...  uart21:                                 ${\n}
 ...  ${SPACE*4}easyDMA: true                 ${\n}
 ...  """
 
@@ -29,9 +29,9 @@ ${ADXL_SPI}=     SEPARATOR=
 ...  """                                     ${\n}
 ...  using "platforms/cpus/nrf54l15.repl"    ${\n}
 ...                                          ${\n}
-...  adxl372: Sensors.ADXL372 @ spi2         ${\n}
+...  adxl372: Sensors.ADXL372 @ spim20       ${\n}
 ...                                          ${\n}
-...  gpio0:                                  ${\n}
+...  p0:                                     ${\n}
 ...  ${SPACE*4}22 -> adxl372@0 // CS         ${\n}
 ...  """
 
@@ -39,21 +39,21 @@ ${ADXL_I2C}=     SEPARATOR=
 ...  """                                     ${\n}
 ...  using "platforms/cpus/nrf54l15.repl"    ${\n}
 ...                                          ${\n}
-...  adxl372: Sensors.ADXL372 @ twi1 0x11    ${\n}
+...  adxl372: Sensors.ADXL372 @ twim22 0x11  ${\n}
 ...  """
 
 ${BUTTON_LED}=     SEPARATOR=
 ...  """                                     ${\n}
 ...  using "platforms/cpus/nrf54l15.repl"    ${\n}
 ...                                          ${\n}
-...  gpio0:                                  ${\n}
+...  p0:                                     ${\n}
 ...  ${SPACE*4}13 -> led@0                   ${\n}
 ...                                          ${\n}
-...  button: Miscellaneous.Button @ gpio0 11 ${\n}
+...  button: Miscellaneous.Button @ p0 11    ${\n}
 ...  ${SPACE*4}invert: true                  ${\n}
-...  ${SPACE*4}-> gpio0@11                   ${\n}
+...  ${SPACE*4}-> p0@11                      ${\n}
 ...                                          ${\n}
-...  led: Miscellaneous.LED @ gpio0 13       ${\n}
+...  led: Miscellaneous.LED @ p0 13          ${\n}
 ...  """
 
 *** Keywords ***
@@ -105,17 +105,17 @@ Should Handle LED and Button
     Create Machine            ${BUTTON_LED}  nrf54l15--zephyr_button.elf-s_660440-50c3b674193c8105624dae389420904e2036f9c0
     Create Terminal Tester    ${UART}
 
-    Create LED Tester         sysbus.gpio0.led  defaultTimeout=0
+    Create LED Tester         sysbus.p0.led  defaultTimeout=0
 
     Start Emulation
     Wait For Line On Uart     Booting Zephyr OS
     Wait For Line On Uart     Press the button
 
     Assert LED State          true
-    Execute Command           sysbus.gpio0.button Press
+    Execute Command           sysbus.p0.button Press
     Sleep           1s
     Assert LED State          false
-    Execute Command           sysbus.gpio0.button Release
+    Execute Command           sysbus.p0.button Release
     Sleep           1s
     # TODO: those sleeps shouldn't be necessary!
     Assert LED State          true
@@ -124,29 +124,29 @@ Should Handle SPI
     Create Machine            ${ADXL_SPI}  nrf54l15--zephyr_adxl372_spi.elf-s_993780-1dedb945dae92c07f1b4d955719bfb1f1e604173
     Create Terminal Tester    ${UART}
 
-    Execute Command           sysbus.spi2.adxl372 AccelerationX 0
-    Execute Command           sysbus.spi2.adxl372 AccelerationY 0
-    Execute Command           sysbus.spi2.adxl372 AccelerationZ 0
+    Execute Command           sysbus.spis22.adxl372 AccelerationX 0
+    Execute Command           sysbus.spis22.adxl372 AccelerationY 0
+    Execute Command           sysbus.spis22.adxl372 AccelerationZ 0
 
     Start Emulation
     Wait For Line On Uart     Booting Zephyr OS
     Wait For Line On Uart     0.00 g
 
-    Execute Command           sysbus.spi2.adxl372 AccelerationX 1
-    Execute Command           sysbus.spi2.adxl372 AccelerationY 0
-    Execute Command           sysbus.spi2.adxl372 AccelerationZ 0
+    Execute Command           sysbus.spis22.adxl372 AccelerationX 1
+    Execute Command           sysbus.spis22.adxl372 AccelerationY 0
+    Execute Command           sysbus.spis22.adxl372 AccelerationZ 0
 
     Wait For Line On Uart     1.00 g
 
-    Execute Command           sysbus.spi2.adxl372 AccelerationX 2
-    Execute Command           sysbus.spi2.adxl372 AccelerationY 2
-    Execute Command           sysbus.spi2.adxl372 AccelerationZ 0
+    Execute Command           sysbus.spis22.adxl372 AccelerationX 2
+    Execute Command           sysbus.spis22.adxl372 AccelerationY 2
+    Execute Command           sysbus.spis22.adxl372 AccelerationZ 0
 
     Wait For Line On Uart     2.83 g
 
-    Execute Command           sysbus.spi2.adxl372 AccelerationX 3
-    Execute Command           sysbus.spi2.adxl372 AccelerationY 3
-    Execute Command           sysbus.spi2.adxl372 AccelerationZ 3
+    Execute Command           sysbus.spis22.adxl372 AccelerationX 3
+    Execute Command           sysbus.spis22.adxl372 AccelerationY 3
+    Execute Command           sysbus.spis22.adxl372 AccelerationZ 3
 
     Wait For Line On Uart     5.20 g
 
@@ -154,29 +154,29 @@ Should Handle I2C
     Create Machine            ${ADXL_I2C}  nrf54l15--zephyr_adxl372_i2c.elf-s_944004-aacf7d772ebcc5a26c156f78ebdef2e03f803cc3
     Create Terminal Tester    ${UART}
 
-    Execute Command           sysbus.twi1.adxl372 AccelerationX 0
-    Execute Command           sysbus.twi1.adxl372 AccelerationY 0
-    Execute Command           sysbus.twi1.adxl372 AccelerationZ 0
+    Execute Command           sysbus.twis21.adxl372 AccelerationX 0
+    Execute Command           sysbus.twis21.adxl372 AccelerationY 0
+    Execute Command           sysbus.twis21.adxl372 AccelerationZ 0
 
     Start Emulation
     Wait For Line On Uart     Booting Zephyr OS
     Wait For Line On Uart     0.00 g
 
-    Execute Command           sysbus.twi1.adxl372 AccelerationX 1
-    Execute Command           sysbus.twi1.adxl372 AccelerationY 0
-    Execute Command           sysbus.twi1.adxl372 AccelerationZ 0
+    Execute Command           sysbus.twis21.adxl372 AccelerationX 1
+    Execute Command           sysbus.twis21.adxl372 AccelerationY 0
+    Execute Command           sysbus.twis21.adxl372 AccelerationZ 0
 
     Wait For Line On Uart     1.00 g
 
-    Execute Command           sysbus.twi1.adxl372 AccelerationX 2
-    Execute Command           sysbus.twi1.adxl372 AccelerationY 2
-    Execute Command           sysbus.twi1.adxl372 AccelerationZ 0
+    Execute Command           sysbus.twis21.adxl372 AccelerationX 2
+    Execute Command           sysbus.twis21.adxl372 AccelerationY 2
+    Execute Command           sysbus.twis21.adxl372 AccelerationZ 0
 
     Wait For Line On Uart     2.83 g
 
-    Execute Command           sysbus.twi1.adxl372 AccelerationX 3
-    Execute Command           sysbus.twi1.adxl372 AccelerationY 3
-    Execute Command           sysbus.twi1.adxl372 AccelerationZ 3
+    Execute Command           sysbus.twis21.adxl372 AccelerationX 3
+    Execute Command           sysbus.twis21.adxl372 AccelerationY 3
+    Execute Command           sysbus.twis21.adxl372 AccelerationZ 3
 
     Wait For Line On Uart     5.20 g
 
